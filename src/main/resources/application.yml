@@ -1,0 +1,67 @@
+spring:
+  profiles:
+    active: dev
+  cache:
+    type: ehcache
+    ehcache:
+      config: classpath:/ehcache.xml
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  server:
+    tomcat:
+      uri-encoding: UTF-8
+  servlet:
+    multipart:
+      max-file-size: 2024MB
+      max-request-size: 100MB
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    joda-date-time-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+#  datasource:
+#    username: root
+#    password: lju$eH@hMkE*d
+#    url: jdbc:mysql://10.50.12.5/jpa-admin-demo?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8
+  datasource:
+    username: user_fuwei_incode
+    password: Pcn64ij6F6TvLF)N
+    url: jdbc:mysql://10.50.12.71/db_data_standard?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8
+
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      logic-delete-field: isDeleted
+      table-prefix: ds_
+  typeEnumsPackage: seassoon.fwdemo.constants
+
+
+server:
+  port: 6601
+
+logging:
+  level:
+    web: info
+
+jwt:
+  expire_time: 86400000
+  secret: shiro_jwt
+
+file:
+  filepath: /Users/waynefu/my_java_project/20-java-ws-demo/fwdemo/upload/
+
+
+# ElasticSearch
+elasticsearch:
+  ip: 10.50.12.61,10.50.12.62,10.50.12.63
+  port: 9200
+  user: app-demo
+  password: BVzJ+27%OMw8s5@
+  index: app-demo-yunying
+  type: info
+

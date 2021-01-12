@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="seassoon.rule.mapper.DataSetMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="seassoon.rule.entity.DataSet">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="data_group_id" property="dataGroupId" />
+        <result column="gmt_create" property="gmtCreate" />
+        <result column="gmt_modified" property="gmtModified" />
+        <result column="pub_admin_id" property="pubAdminId" />
+        <result column="data_standard_number" property="dataStandardNumber" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, name, data_group_id, gmt_create, gmt_modified, pub_admin_id,data_standard_number
+    </sql>
+    
+     <select id="queryDataSetPage"
+		resultType="seassoon.rule.vo.DataSetVO">
+		select a.id as id,a.name as name,a.gmt_create as gmtCreate,a.gmt_modified as gmtModified,a.pub_admin_id as pubAdminId,b.username as pubName,a.data_group_id as dataGroupId
+from ds_data_set a LEFT JOIN ds_admin b  on a.pub_admin_id=b.id
+<where> a.data_group_id=#{dataGroupId} 
+			<if
+				test="keyword!=null">
+				and a.name like CONCAT('%',#{keyword},'%' ) 
+			</if>
+			</where>
+	</select>
+
+</mapper>

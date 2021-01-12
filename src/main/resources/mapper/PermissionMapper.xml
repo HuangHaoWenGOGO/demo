@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="seassoon.rule.mapper.PermissionMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="seassoon.rule.entity.Permission">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="comment" property="comment"/>
+        <result column="permission" property="permission"/>
+        <result column="module" property="module"/>
+        <result column="gmt_create" property="gmtCreate"/>
+        <result column="gmt_modified" property="gmtModified"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, name, comment, permission, module, gmt_create, gmt_modified
+    </sql>
+
+
+    <select id="findByRoleIdIn" resultMap="BaseResultMap">
+        select permission.* from ds_permission permission ,ds_role_permission role_permission,ds_role role where permission.id=role_permission.permission_id
+        and role_permission.role_id=role.id and role.id
+        IN
+        <foreach collection="roleIds" item="id" index="index" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+
+</mapper>

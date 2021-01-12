@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="seassoon.rule.mapper.DataStandardReviewRecordMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap"
+		type="seassoon.rule.entity.DataStandardReviewRecord">
+		<id column="id" property="id" />
+		<result column="data_standard_id" property="dataStandardId" />
+		<result column="status" property="status" />
+		<result column="review_level" property="reviewLevel" />
+		<result column="review_config" property="reviewConfig" />
+		<result column="gmt_create" property="gmtCreate" />
+		<result column="gmt_modified" property="gmtModified" />
+		<result column="current_admin_id" property="currentAdminId" />
+		<result column="current_reviewer_order"
+			property="currentReviewerOrder" />
+		<result column="pub_admin_id" property="pubAdminId" />
+		<result column="review_reason" property="reviewReason" />
+
+	</resultMap>
+
+	<!-- 通用查询结果列 -->
+	<sql id="Base_Column_List">
+		id, data_standard_id, status, review_level, review_config, gmt_create,
+		gmt_modified, current_admin_id, current_reviewer_order, pub_admin_id,
+		review_reason
+	</sql>
+	<select id="selectDataStandardReviewRecordPageVo"
+		resultType="seassoon.rule.dto.DataStandardReviewRecordPageDTO">
+		select a.id as id,a.data_standard_id as dataStandardId,a.status as status,a.review_level as reviewLevel,a.gmt_create as gmtCreate,
+a.gmt_modified as gmtModified,b.name as name,a.current_admin_id as currentAdminId,a.pub_admin_id as pubAdminId
+from ds_data_standard_review_record a LEFT JOIN ds_data_standard b  on a.data_standard_id=b.id
+where a.pub_admin_id=#{pub_admin_id} or a.current_admin_id=#{current_admin_id}
+	</select>
+	
+	<select id="queryDataStandardReviewPage"
+		resultType="seassoon.rule.vo.DataStandardReviewRecordVO">
+	select b.`name` as dataStandardName,a.`status` as status,a.review_level as reviewLevel,
+a.gmt_create as gmtCreate,a.gmt_modified as gmtModified,
+c.name as dataSetName,
+b.version as version,
+a.id as id,
+d.username as currentAdminName,
+e.username as pubAdminName,
+b.id as dataStandardId,
+d.id as currentAdminId,
+e.id as pubAdminId,
+b.data_set_id as dataSetId
+from ds_data_standard_review_record a 
+left join ds_data_standard b on a.data_standard_id=b.id
+left join ds_data_set c on b.data_set_id=c.id
+left join ds_admin d on a.current_admin_id=d.id
+left join ds_admin e on a.pub_admin_id=e.id
+where a.pub_admin_id=#{pubAdminId} or a.current_admin_id=#{currentAdminId}
+
+	</select>
+	
+
+</mapper>

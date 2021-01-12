@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="seassoon.rule.mapper.DataSetReviewerConfigMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="seassoon.rule.entity.DataSetReviewerConfig">
+        <id column="id" property="id" />
+        <result column="data_set_id" property="dataSetId" />
+        <result column="admin_id" property="adminId" />
+        <result column="review_order" property="reviewOrder" />
+        <result column="gmt_create" property="gmtCreate" />
+        <result column="gmt_modified" property="gmtModified" />
+        <result column="data_standard_id" property="dataStandardId" />
+        
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, data_set_id, admin_id, review_order, gmt_create, gmt_modified, data_standard_id 
+    </sql>
+    
+    <select id="findDataSetReviewerByDataSetId"
+		resultType="seassoon.rule.vo.DataSetReviewerConfigVO">
+		select a.id as id,a.data_set_id as dataSetId,a.gmt_create as gmtCreate,a.gmt_modified as gmtModified,a.admin_id as adminId,
+		a.data_standard_id as dataStandrdId,
+		b.username as pubName 
+from ds_data_set_reviewer_config a LEFT JOIN ds_admin b  on a.admin_id=b.id 
+where 
+a.data_set_id=#{dataSetId} 
+
+	</select>
+	
+	<select id="findDataSetReviewerByDataStandardId"
+		resultType="seassoon.rule.vo.DataSetReviewerConfigVO">
+		select a.id as id,a.data_set_id as dataSetId,a.gmt_create as gmtCreate,a.gmt_modified as gmtModified,a.admin_id as adminId,
+		a.data_standard_id as dataStandardId,
+		b.username as pubName 
+from ds_data_set_reviewer_config a LEFT JOIN ds_admin b  on a.admin_id=b.id 
+where 
+a.data_standard_id=#{dataStandardId} 
+
+	</select>
+
+</mapper>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="seassoon.rule.mapper.DataStandardMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="seassoon.rule.entity.DataStandard">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="version" property="version" />
+        <result column="data_group_id" property="dataGroupId" />
+        <result column="data_set_id" property="dataSetId" />
+        <result column="gmt_create" property="gmtCreate" />
+        <result column="gmt_modified" property="gmtModified" />
+        <result column="status" property="status" />
+        <result column="pub_admin_id" property="pubAdminId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, name, version, data_group_id, data_set_id, gmt_create, gmt_modified, status, pub_admin_id
+    </sql>
+    
+    <select id="queryDataStandardPage"
+		resultType="seassoon.rule.vo.DataStandardVO">
+		select a.id as id,a.name as name,a.gmt_create as gmtCreate,a.gmt_modified as gmtModified,a.pub_admin_id as pubAdminId,b.username as pubName,
+		a.data_group_id as dataGroupId,a.version as version,a.data_set_id as dataSetId,a.status as status
+from ds_data_standard a LEFT JOIN ds_admin b  on a.pub_admin_id=b.id
+<where> a.data_set_id=#{dataSetId}  and a.status=1 
+			<if
+				test="keyword!=null">
+				and a.name like CONCAT('%',#{keyword},'%' ) 
+			</if>
+			</where>
+	</select>
+
+</mapper>

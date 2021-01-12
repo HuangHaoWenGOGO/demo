@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="seassoon.rule.mapper.DataGroupMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="seassoon.rule.entity.DataGroup">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="gmt_create" property="gmtCreate" />
+        <result column="gmt_modified" property="gmtModified" />
+        <result column="pub_admin_id" property="pubAdminId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, name, gmt_create, gmt_modified, pub_admin_id
+    </sql>
+    
+    <select id="queryDataGroupPage"
+		resultType="seassoon.rule.vo.DataGroupVO">
+		select a.id as id,a.name as name,a.gmt_create as gmtCreate,a.gmt_modified as gmtModified,a.pub_admin_id as pubAdminId,b.username as pubName
+from ds_data_group a LEFT JOIN ds_admin b  on a.pub_admin_id=b.id
+<where> 1=1
+			<if
+				test="keyword!=null">
+				and a.name like CONCAT('%',#{keyword},'%' ) 
+			</if>
+			</where>
+	</select>
+
+</mapper>
